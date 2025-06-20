@@ -1,0 +1,65 @@
+// Guessing Game
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <limits>
+using namespace std;
+
+int main() {
+    int secret_number, guess, attempts = 0;
+    char playAgain;
+
+    do {
+        // Seed random generator
+        srand(time(0));
+        secret_number = rand() % 50 + 1;
+
+        cout << "\n======================================\n";
+        cout << "🎯 Welcome to the Number Guessing Game!\n";
+        cout << "I'm thinking of a number between 1 and 50...\n";
+        cout << "Can you guess it?\n";
+        cout << "======================================\n";
+
+        // Loop
+        while (true) {
+            cout << "\nEnter your guess: ";
+            cin >> guess;
+
+            // Input validation
+            if (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "❌ Invalid input! Please enter a number.\n";
+                continue;
+            }
+
+            attempts++;
+
+            if (guess < secret_number) {
+                cout << "📉 Too Low!";
+                if (secret_number - guess <= 5)
+                    cout << " (But very close!)";
+                cout << endl;
+            }
+            else if (guess > secret_number) {
+                cout << "📈 Too High!";
+                if (guess - secret_number <= 5)
+                    cout << " (Almost there!)";
+                cout << endl;
+            }
+            else {
+                cout << "\n🎉 You Got It! The number was " << secret_number << ".\n";
+                cout << "🏆 You won in " << attempts << " attempts!\n";
+                break;
+            }
+        }
+
+        cout << "\n🔁 Do you want to play again? (y/n): ";
+        cin >> playAgain;
+        attempts = 0;
+
+    } while (tolower(playAgain) == 'y');
+
+    cout << "\n👋 Thanks for playing!\n";
+    return 0;
+}
